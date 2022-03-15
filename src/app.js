@@ -3,6 +3,10 @@ import cors from 'cors';
 import morgan from "morgan"
 import mongoose from "mongoose"
 import productRouter from "./routes/product"
+import userRouter from "./routes/auth"
+import { readdirSync } from 'fs';
+import path, { dirname } from 'path';
+
 const app = express();
 // middleware
 app.use(cors());
@@ -11,6 +15,7 @@ app.use(express.json());
 
 // Router
 app.use("/api", productRouter);
+app.use("/api", userRouter);
 // connect db
 mongoose.connect("mongodb://localhost:27017/we16310")
     .then(() => {

@@ -1,11 +1,9 @@
-import mongoose from "mongoose"
-
-const Product = mongoose.model('Product', { name: String });
+import Products from "../models/product"
 
 
 export const create = async (req, res) => {
     try {
-        const product = await new Product(req.body).save();
+        const product = await new Products(req.body).save();
         res.json(product)
     } catch (error) {
         res.status(400).json(
@@ -16,7 +14,7 @@ export const create = async (req, res) => {
 
 export const list = async (req, res) => {
     try {
-        const product = await Product.find({}).exec()
+        const product = await Products.find({}).exec()
         res.json(product)
     } catch (error) {
         res.status(400).json(
@@ -27,7 +25,7 @@ export const list = async (req, res) => {
 
 export const getOne = async (req, res) => {
     try {
-        const product = await Product.findOne({ _id: req.params.id }).exec()
+        const product = await Products.findOne({ _id: req.params.id }).exec()
         res.json(product)
     } catch (error) {
         res.status(400).json(
@@ -40,7 +38,7 @@ export const update = async (req, res) => {
     const condition = { id: req.params.id }
     const update = req.body
     try {
-        const product = await Product.findOneAndUpdate(condition, update).exec()
+        const product = await Products.findOneAndUpdate(condition, update).exec()
         res.json(product)
     } catch (error) {
         res.status(400).json(
@@ -51,7 +49,7 @@ export const update = async (req, res) => {
 
 export const remove = async (req, res) => {
     try {
-        const product = await Product.findOneAndDelete({ _id: req.params.id }).exec()
+        const product = await Products.findOneAndDelete({ _id: req.params.id }).exec()
         res.json(product)
     } catch (error) {
         res.status(400).json(
