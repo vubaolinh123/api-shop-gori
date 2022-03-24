@@ -11,7 +11,6 @@ export const create = async (req, res) => {
         )
     }
 }
-
 export const list = async (req, res) => {
     try {
         const product = await Products.find({}).exec()
@@ -22,7 +21,6 @@ export const list = async (req, res) => {
         )
     }
 }
-
 export const getOne = async (req, res) => {
     try {
         const product = await Products.findOne({ _id: req.params.id }).exec()
