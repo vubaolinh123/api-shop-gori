@@ -33,8 +33,9 @@ export const getOne = async (req, res) => {
 }
 
 export const update = async (req, res) => {
-    const condition = { id: req.params.id }
+    const condition = { _id: req.params.id }
     const update = req.body
+    console.log(update, condition);
     try {
         const product = await Products.findOneAndUpdate(condition, update).exec()
         res.json(product)

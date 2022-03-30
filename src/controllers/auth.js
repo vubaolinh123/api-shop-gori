@@ -1,4 +1,5 @@
 import User from "../models/user"
+import jwt from "jsonwebtoken"
 
 export const register = async (req, res) => {
     const { email, name, password } = req.body;
@@ -6,7 +7,7 @@ export const register = async (req, res) => {
         const exitsUser = await User.findOne({ email }).exec();
 
         if (exitsUser) {
-            res.status(400).json({ message: "Tài khoản đã tồn tại" })
+            return res.status(400).json({ message: "Tài khoản đã tồn tại" })
         }
 
         const user = await new User({ email, name, password }).save();
@@ -35,7 +36,11 @@ export const login = async (req, res, next) => {
         if (!user.authenticate(password)) {
             res.status(404).json({ message: "Mật khẩu không đúng" })
         }
+
+        const token = jwt.sign({ _id: user.id }, "abc")
+
         res.json({
+            token,
             user: {
                 _id: user._id,
                 email: user.email,
@@ -43,6 +48,7 @@ export const login = async (req, res, next) => {
             }
         })
     } catch (error) {
+        console.log(error);
         res.status(400).json(
             { error: "Đăng nhập thất bại" }
         )
