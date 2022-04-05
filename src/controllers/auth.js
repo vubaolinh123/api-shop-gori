@@ -2,6 +2,7 @@ import User from "../models/user"
 import jwt from "jsonwebtoken"
 
 export const register = async (req, res) => {
+
     const { email, name, password } = req.body;
     try {
         const exitsUser = await User.findOne({ email }).exec();

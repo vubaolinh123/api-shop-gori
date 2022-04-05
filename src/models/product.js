@@ -3,17 +3,43 @@ const { ObjectId } = mongoose.Types
 const productSchema = new Schema({
     name: {
         type: String,
-        // minLength: 5,
         required: true,
-        // unique: true
     },
     price: {
         type: Number,
         required: true
     },
+    oldPrice: {
+        type: Number,
+        required: true
+    },
+    image: {
+        type: String,
+        required: true
+    },
+    size: {
+        type: String,
+    },
+    desc: {
+        type: String,
+    },
+    status: {
+        type: Number,
+        required: true
+    },
     CategoryProduct: {
         type: ObjectId,
+        required: true,
         ref: "CategoryProduct"
     }
 }, { timestamps: true });
-export default mongoose.model('Product', productSchema);
+
+productSchema.index({ name: 'text' });
+
+
+
+const Products = mongoose.model('Product', productSchema);
+
+Products.createIndexes({ name: 'text' })
+
+export default Products;

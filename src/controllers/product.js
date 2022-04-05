@@ -6,6 +6,7 @@ export const create = async (req, res) => {
         const product = await new Products(req.body).save();
         res.json(product)
     } catch (error) {
+        console.log(error);
         res.status(400).json(
             { error: "Không thêm được sản phẩm" }
         )
@@ -13,7 +14,7 @@ export const create = async (req, res) => {
 }
 export const list = async (req, res) => {
     try {
-        const product = await Products.find({}).exec()
+        const product = await Products.find().populate('CategoryProduct')
         res.json(product)
     } catch (error) {
         res.status(400).json(
@@ -21,6 +22,23 @@ export const list = async (req, res) => {
         )
     }
 }
+
+export const search = async (req, res) => {
+    try {
+        const searchField = req.query.name;
+        const product = await Products.find({ name: { $regex: searchField, $options: '$i' } })
+        if (searchField == "") {
+            res.json("")
+        } else {
+            res.json(product)
+        }
+    } catch (error) {
+        res.status(400).json(
+            { error: "Không tim được sản phẩm" }
+        )
+    }
+}
+
 export const getOne = async (req, res) => {
     try {
         const product = await Products.findOne({ _id: req.params.id }).exec()
@@ -52,7 +70,22 @@ export const remove = async (req, res) => {
         res.json(product)
     } catch (error) {
         res.status(400).json(
-            { error: "Không tim được sản phẩm" }
+            { error: "Không tìm được sản phẩm để xóa" }
+        )
+    }
+}
+
+export const page = async (req, res) => {
+    try {
+        const page = req.query.page * 1 || 1;
+        const limit = req.query.limit * 1 || 5;
+        const skip = limit * (page - 1)
+        const sort = req.query.sort || '-createAt'
+        const product = await Products.find().limit(limit).skip(skip).sort(sort)
+        res.json(product)
+    } catch (error) {
+        res.status(400).json(
+            { error: "Không tìm được sản phẩm" }
         )
     }
 }
