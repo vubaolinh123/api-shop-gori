@@ -14,7 +14,7 @@ export const create = async (req, res) => {
 }
 export const list = async (req, res) => {
     try {
-        const product = await Products.find().populate('CategoryProduct')
+        const product = await Products.find().populate('CategoryProduct').sort({ "createdAt": -1 })
         res.json(product)
     } catch (error) {
         res.status(400).json(
@@ -53,7 +53,6 @@ export const getOne = async (req, res) => {
 export const update = async (req, res) => {
     const condition = { _id: req.params.id }
     const update = req.body
-    console.log(update, condition);
     try {
         const product = await Products.findOneAndUpdate(condition, update).exec()
         res.json(product)
@@ -78,9 +77,9 @@ export const remove = async (req, res) => {
 export const page = async (req, res) => {
     try {
         const page = req.query.page * 1 || 1;
-        const limit = req.query.limit * 1 || 5;
+        const limit = req.query.limit * 1 || 12;
         const skip = limit * (page - 1)
-        const sort = req.query.sort || '-createAt'
+        const sort = req.query.sort || { "createdAt": -1 };
         const product = await Products.find().limit(limit).skip(skip).sort(sort)
         res.json(product)
     } catch (error) {

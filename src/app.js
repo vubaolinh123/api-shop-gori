@@ -8,6 +8,8 @@ import YAML from "yamljs";
 import productRouter from "./routes/product"
 import cateProRouter from "./routes/catePro"
 import userRouter from "./routes/auth"
+import orderRouter from "./routes/infoOder"
+import detailBillRouter from "./routes/detailBill"
 
 const app = express();
 const swaggerJSDocs = YAML.load('./api.yaml');
@@ -22,6 +24,8 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerJSDocs));
 app.use("/api", productRouter);
 app.use("/api", userRouter);
 app.use("/api", cateProRouter);
+app.use("/api", orderRouter);
+app.use("/api", detailBillRouter);
 // connect db
 mongoose.connect("mongodb://localhost:27017/we16310")
     .then(() => {

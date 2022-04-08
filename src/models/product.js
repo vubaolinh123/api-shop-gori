@@ -29,7 +29,6 @@ const productSchema = new Schema({
     },
     CategoryProduct: {
         type: ObjectId,
-        required: true,
         ref: "CategoryProduct"
     }
 }, { timestamps: true });
