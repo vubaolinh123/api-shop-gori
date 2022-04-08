@@ -21,6 +21,10 @@ const userSchema = new Schema({
     role: {
         type: Number,
         default: 0
+    },
+    status: {
+        type: Number,
+        default: 0
     }
 }, { timestamps: true });
 

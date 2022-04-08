@@ -25,6 +25,10 @@ const infoOderSchema = new Schema({
         type: Number,
         required: true
     },
+    User: {
+        type: ObjectId,
+        ref: "User"
+    }
 }, { timestamps: true });
 
 

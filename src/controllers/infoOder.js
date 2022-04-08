@@ -34,3 +34,16 @@ export const read = async (req, res) => {
         )
     }
 }
+
+export const update = async (req, res) => {
+    const condition = { _id: req.params.id }
+    const update = req.body
+    try {
+        const info = await InfoOder.findOneAndUpdate(condition, update).exec()
+        res.json(info)
+    } catch (error) {
+        res.status(400).json(
+            { error: "Không update được Bill" }
+        )
+    }
+}
