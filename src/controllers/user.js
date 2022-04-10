@@ -20,7 +20,7 @@ export const userById = async (req, res, next, id) => {
 export const read = async (req, res) => {
     try {
         const user = await User.findOne({ _id: req.params.id }).exec()
-        const info = await infoOder.find({ User: user._id }).select('-User').exec()
+        const info = await infoOder.find({ User: user._id }).select('-User').sort({ "createdAt": -1 })
         res.json({
             user,
             info
