@@ -32,27 +32,29 @@ export const login = async (req, res, next) => {
     try {
         const user = await User.findOne({ email }).exec()
         if (!user) {
-            res.status(404).json({ message: "Email không tồn tại" })
+            return res.status(400).json({ message: "Email không tồn tại" })
         }
         if (!user.authenticate(password)) {
-            res.status(404).json({ message: "Mật khẩu không đúng" })
+            return res.status(400).json({ message: "Mật khẩu không đúng" })
+        }
+        if (user.status === 1) {
+            return res.status(400).json({ message: "Tài khoản của bạn bị khóa" })
         }
 
         const token = jwt.sign({ _id: user.id }, "abc")
 
-        res.json({
+        return res.json({
             token,
             user: {
                 _id: user._id,
                 email: user.email,
                 name: user.name,
-                role: user.role
+                role: user.role,
+                status: user.status
             }
         })
     } catch (error) {
         console.log(error);
-        res.status(400).json(
-            { error: "Đăng nhập thất bại" }
-        )
+        res.status(400).json({ error: "Đăng nhập thất bại" })
     }
 }

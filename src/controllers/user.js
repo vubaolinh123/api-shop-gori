@@ -1,5 +1,6 @@
 import User from "../models/user"
 import infoOder from "../models/infoOder"
+import Comment from "../models/comment"
 
 export const userById = async (req, res, next, id) => {
     try {
@@ -21,13 +22,50 @@ export const read = async (req, res) => {
     try {
         const user = await User.findOne({ _id: req.params.id }).exec()
         const info = await infoOder.find({ User: user._id }).select('-User').sort({ "createdAt": -1 })
+        const comment = await Comment.find({ User: user._id }).select('-User').sort({ "createdAt": -1 })
         res.json({
             user,
-            info
+            info,
+            comment
         })
     } catch (error) {
         res.status(400).json(
-            { error: "Không tim được Bill cùng loại" }
+            { error: "Không tim được User cùng loại" }
+        )
+    }
+}
+
+export const update = async (req, res) => {
+    const condition = { _id: req.params.id }
+    const update = req.body
+    try {
+        const user = await User.findOneAndUpdate(condition, update).exec()
+        res.json(user)
+    } catch (error) {
+        res.status(400).json(
+            { error: "Không update được user" }
+        )
+    }
+}
+
+export const list = async (req, res) => {
+    try {
+        const user = await User.find().sort({ "createdAt": -1 })
+        res.json(user)
+    } catch (error) {
+        res.status(400).json(
+            { error: "Không lấy được danh sách user" }
+        )
+    }
+}
+
+export const remove = async (req, res) => {
+    try {
+        const user = await User.findOneAndDelete({ _id: req.params.id }).exec()
+        res.json(user)
+    } catch (error) {
+        res.status(400).json(
+            { error: "Không tìm được user để xóa" }
         )
     }
 }

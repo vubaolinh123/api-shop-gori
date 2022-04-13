@@ -23,21 +23,6 @@ export const list = async (req, res) => {
     }
 }
 
-// export const search = async (req, res) => {
-//     try {
-//         const searchField = req.query.name;
-//         const product = await Products.find({ name: { $regex: searchField, $options: '$i' } })
-//         if (searchField == "") {
-//             res.json("")
-//         } else {
-//             res.json(product)
-//         }
-//     } catch (error) {
-//         res.status(400).json(
-//             { error: "Không tim được sản phẩm" }
-//         )
-//     }
-// }
 
 export const getOne = async (req, res) => {
     try {

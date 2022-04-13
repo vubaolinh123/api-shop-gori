@@ -12,6 +12,7 @@ import orderRouter from "./routes/infoOder"
 import detailBillRouter from "./routes/detailBill"
 import userRouter from "./routes/user"
 import commentRouter from "./routes/comment"
+import voucherRouter from "./routes/voucher"
 
 const app = express();
 const swaggerJSDocs = YAML.load('./api.yaml');
@@ -30,6 +31,8 @@ app.use("/api", orderRouter);
 app.use("/api", detailBillRouter);
 app.use("/api", userRouter);
 app.use("/api", commentRouter);
+app.use("/api", voucherRouter);
+
 // connect db
 mongoose.connect("mongodb://localhost:27017/we16310")
     .then(() => {
