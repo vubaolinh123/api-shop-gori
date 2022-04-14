@@ -12,7 +12,7 @@ export const create = async (req, res) => {
 
 export const list = async (req, res) => {
     try {
-        const info = await InfoOder.find({}).exec()
+        const info = await InfoOder.find({}).sort({ "createdAt": -1 })
         res.json(info)
     } catch (error) {
         res.status(400).json({ message: "Không lấy được danh sách đặt hàng" })
