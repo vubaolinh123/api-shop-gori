@@ -2,8 +2,6 @@ import express from "express"
 import cors from 'cors';
 import morgan from "morgan"
 import mongoose from "mongoose"
-import swaggerUi from "swagger-ui-express";
-import YAML from "yamljs";
 
 import productRouter from "./routes/product"
 import cateProRouter from "./routes/catePro"
@@ -15,7 +13,7 @@ import commentRouter from "./routes/comment"
 import voucherRouter from "./routes/voucher"
 
 const app = express();
-const swaggerJSDocs = YAML.load('./api.yaml');
+
 
 app.use(cors({
     origin: 'https://shop.linkcualinh.com',
@@ -24,10 +22,8 @@ app.use(cors({
 
 
 // middleware
-app.use(cors());
 app.use(morgan("tiny"))
 app.use(express.json());
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerJSDocs));
 
 // Router
 app.use("/api", productRouter);
