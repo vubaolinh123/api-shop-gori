@@ -17,6 +17,12 @@ import voucherRouter from "./routes/voucher"
 const app = express();
 const swaggerJSDocs = YAML.load('./api.yaml');
 
+app.use(cors({
+    origin: 'https://shop.linkcualinh.com',
+    methods: ['POST', 'PUT', 'DELETE','GET']
+}));
+
+
 // middleware
 app.use(cors());
 app.use(morgan("tiny"))
@@ -34,13 +40,23 @@ app.use("/api", commentRouter);
 app.use("/api", voucherRouter);
 
 // connect db
-mongoose.connect("mongodb://localhost:27017/we16310")
-    .then(() => {
-        console.log("Kết nối DB thành công");
-    })
-    .catch(err => console.log(err))
+const mongoAtlasUri = "mongodb+srv://vubaolinh456:vubaolinh456@databasebloglv.sbvymx6.mongodb.net/shop?retryWrites=true&w=majority";
 
-const PORT = 3001;
+try {
+    // Connect to the MongoDB cluster
+    mongoose.connect(
+        mongoAtlasUri,
+        { useNewUrlParser: true, useUnifiedTopology: true },
+        () => console.log("Mongoose đã được kết nối")
+    );
+} catch (e) {
+    console.log("Không thể kết nối");
+}
+const dbConnection = mongoose.connection;
+dbConnection.on("error", (err) => console.log(`Kết nối thất bại ${err}`));
+dbConnection.once("open", () => console.log("Kết nối thành công đến DB!"));
+
+const PORT = 8080;
 app.listen(PORT, () => {
     console.log("Server của bạn đang chạy ở cổng ", PORT);
 })

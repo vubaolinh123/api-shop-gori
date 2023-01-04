@@ -4,7 +4,7 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon ./src/app.js --exec babel-node -e js -e .yaml",
+    "start": "nodemon src/app.js localhost 8080 --exec babel-node -e js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -26,12 +26,13 @@
     "morgan": "^1.10.0",
     "swagger-ui-express": "^4.3.0",
     "uuid": "^8.3.2",
-    "yamljs": "^0.3.0"
-  },
-  "devDependencies": {
+    "yamljs": "^0.3.0",
     "babel-cli": "^6.26.0",
     "babel-preset-env": "^1.7.0",
-    "babel-preset-stage-0": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1"
+  },
+  "devDependencies": {
+    
     "nodemon": "^2.0.15"
   }
 }
