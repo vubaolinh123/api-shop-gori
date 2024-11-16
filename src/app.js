@@ -15,10 +15,12 @@ import voucherRouter from "./routes/voucher"
 const app = express();
 
 
-app.use(cors({
-    origin: 'https://shop.linkcualinh.com',
-    methods: ['POST', 'PUT', 'DELETE','GET']
-}));
+// app.use(cors({
+//    origin: 'https://shop.linkcualinh.com',
+//    methods: ['POST', 'PUT', 'DELETE','GET']
+// }));
+
+app.use(cors());
 
 
 // middleware
